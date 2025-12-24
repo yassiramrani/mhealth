@@ -26,7 +26,7 @@
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back"
+        android:text="Welcome Back hhhhhgit"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#004aad"
