@@ -1,91 +1,114 @@
-// Dans LoginActivity.java
-
 package com.example.mhealth;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.button.MaterialButton;
+
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText etEmail;
-    private TextInputEditText etPassword;
-    private MaterialButton btnLogin;
-    private TextView tvSignup; // Renommé pour correspondre au layout
-    private DatabaseHelper databaseHelper;
+    TextInputEditText etEmail, etPassword;
+    Button btnLogin;
+    TextView tvRegisterLink;
+    DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Assurez-vous que le layout est activity_login.xml
         setContentView(R.layout.activity_login);
 
-        // Initialisation des vues avec les bons IDs
-        // VÉRIFIEZ QUE CES IDS SONT DANS activity_login.xml
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
+        dbHelper = DatabaseHelper.getInstance(this);
+        dbHelper.getWritableDatabase();
+        etEmail = findViewById(R.id.etLoginEmail);
+        etPassword = findViewById(R.id.etLoginPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        tvSignup = findViewById(R.id.tvSignup); // ID pour le texte "Create Account"
+        tvRegisterLink = findViewById(R.id.tvSignUpRedirect);
 
-        databaseHelper = new DatabaseHelper(this);
-        databaseHelper.getWritableDatabase(); // <-- LIGNE MANQUANTE
+        // --- Action Bouton Login ---
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Appel de la nouvelle méthode de connexion, plus propre
+                loginUser();
+            }
+        });
 
-        // Listener pour le bouton de connexion
-        btnLogin.setOnClickListener(v -> loginUser());
-
-        // Listener pour la redirection vers l'inscription
-        tvSignup.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            startActivity(intent);
+        // --- Lien vers l'inscription ---
+        tvRegisterLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
+    /**
+     * CORRIGÉ : Cette méthode contient la logique complète du pipeline de connexion.
+     */
     private void loginUser() {
-        // Récupération des saisies
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Vérification dans la base de données
-        Cursor cursor = databaseHelper.checkUser(email, password);
+        // La méthode checkUser retourne maintenant le statut, grâce à notre correction de DatabaseHelper
+        Cursor cursor = dbHelper.checkUser(email, password);
 
+        // Si le curseur a trouvé un utilisateur correspondant
         if (cursor != null && cursor.moveToFirst()) {
             try {
+                // --- CORRECTION LOGIQUE ---
+                // On récupère le statut depuis le curseur
+                // getColumnIndexOrThrow est plus sûr car il plantera si la colonne n'existe pas
                 int statusColumnIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_STATUS);
                 String status = cursor.getString(statusColumnIndex);
 
-                if ("en_attente".equals(status)) {
-                    // Compte en attente -> Page d'attente
+                // On vérifie le statut de l'utilisateur
+                if ("approuve".equals(status)) {
+                    // --- CAS 1 : Le compte est approuvé ---
+                    Toast.makeText(LoginActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
+
+                    // Redirection vers le tableau de bord du patient
+                    Intent intent = new Intent(LoginActivity.this, PatientDashboardActivity.class);
+                    intent.putExtra("USER_EMAIL", email); // Passer l'email est une bonne pratique
+                    startActivity(intent);
+                    finish(); // Ferme l'activité de connexion
+
+                } else if ("en_attente".equals(status)) {
+                    // --- CAS 2 : Le compte est en attente ---
+                    // Redirection vers l'écran d'attente
                     Intent intent = new Intent(LoginActivity.this, WaitingForConfirmationActivity.class);
                     startActivity(intent);
-
-                } else if ("approuvé".equals(status)) {
-                    // Compte approuvé -> Logique de connexion réussie
-                    int roleColumnIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ROLE);
-                    String role = cursor.getString(roleColumnIndex);
-                    Toast.makeText(this, "Connexion réussie ! Rôle : " + role, Toast.LENGTH_SHORT).show();
-                    // ... rediriger vers les dashboards Patient/Médecin ici ...
+                    finish(); // Ferme aussi l'activité de connexion
 
                 } else {
-                    // Statut inconnu
-                    Toast.makeText(this, "Le statut de votre compte est inconnu.", Toast.LENGTH_SHORT).show();
+                    // Cas où le statut n'est ni "approuvé" ni "en_attente"
+                    Toast.makeText(LoginActivity.this, "Le statut de votre compte est inconnu. Contactez le support.", Toast.LENGTH_LONG).show();
                 }
+
             } finally {
-                cursor.close(); // Fermer le curseur est crucial
+                // Très important : toujours fermer le curseur dans un bloc finally
+                cursor.close();
             }
+
         } else {
-            // Identifiants incorrects
-            Toast.makeText(this, "Email ou mot de passe incorrect.", Toast.LENGTH_SHORT).show();
+            // Identifiants incorrects ou utilisateur non trouvé
+            Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect.", Toast.LENGTH_SHORT).show();
+            // Il faut aussi fermer le curseur même en cas d'échec s'il n'est pas nul
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 }
