@@ -4,6 +4,8 @@ package com.example.mhealth;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import java.util.ArrayList;
+import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -74,5 +76,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
 
         return cursor;
+    }
+    public List<User> getAllUsers() {
+        List<User> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT id, full_name, email, status FROM users",
+                null
+        );
+
+        while (c.moveToNext()) {
+            list.add(new User(
+                    c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
+                    c.getString(3)
+            ));
+        }
+        c.close();
+        return list;
     }
 }
