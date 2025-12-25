@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".BookAppointmentActivity">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prendre un rendez-vous"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/etAppointmentDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:hint="Date (AAAA-MM-JJ)"
+        android:inputType="date"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etAppointmentTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etAppointmentDate"
+        android:hint="Heure (HH:mm)"
+        android:inputType="time"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etAppointmentReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etAppointmentTime"
+        android:hint="Motif du rendez-vous"
+        android:inputType="textCapSentences"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btnValidateAppointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etAppointmentReason"
+        android:text="Valider le rendez-vous" />
+
+    <Button
+        android:id="@+id/btnBackToDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnValidateAppointment"
+        android:text="Retour"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+</RelativeLayout>

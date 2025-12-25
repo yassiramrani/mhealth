@@ -73,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 // getColumnIndexOrThrow est plus sûr car il plantera si la colonne n'existe pas
                 int statusColumnIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_STATUS);
                 String status = cursor.getString(statusColumnIndex);
+                int userIdColumnIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID);
+                int userId = cursor.getInt(userIdColumnIndex);
 
                 // On vérifie le statut de l'utilisateur
                 if ("approuve".equals(status)) {
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Redirection vers le tableau de bord du patient
                     Intent intent = new Intent(LoginActivity.this, PatientDashboardActivity.class);
-                    intent.putExtra("USER_EMAIL", email); // Passer l'email est une bonne pratique
+                    intent.putExtra("USER_ID", userId);
                     startActivity(intent);
                     finish(); // Ferme l'activité de connexion
 

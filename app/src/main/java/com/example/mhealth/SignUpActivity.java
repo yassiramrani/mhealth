@@ -110,12 +110,18 @@ public class SignUpActivity extends AppCompatActivity {
         // 2. Validation simple
         if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ||
                 TextUtils.isEmpty(dob) || TextUtils.isEmpty(weightStr) || TextUtils.isEmpty(heightStr)) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (gender.isEmpty()) {
-            Toast.makeText(this, "Please select a gender", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Veuillez sélectionner un genre", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Vérifier si l'e-mail existe déjà
+        if (dbHelper.checkUserExists(email)) {
+            Toast.makeText(this, "Cette adresse e-mail est déjà utilisée.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -124,11 +130,10 @@ public class SignUpActivity extends AppCompatActivity {
         double height = Double.parseDouble(heightStr);
 
         // 3. Insertion dans la base de données
-        // Dans le listener du bouton d'inscription
         boolean isInserted = dbHelper.addPatient(fullName, email, phone, dob, gender, weight, height, password);
-        // oubaseHelper.addUser(fullName, email, password, ...); // Autres champs
 
-        if (isInserted) {Toast.makeText(this, "Inscription réussie ! Votre compte est en attente de confirmation.", Toast.LENGTH_LONG).show();
+        if (isInserted) {
+            Toast.makeText(this, "Inscription réussie ! Votre compte est en attente de confirmation.", Toast.LENGTH_LONG).show();
             // Rediriger vers la page de connexion
             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
             startActivity(intent);

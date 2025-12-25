@@ -94,6 +94,7 @@
             android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAppointment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
@@ -136,6 +137,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
+                    android:id="@+id/tvReason"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Consultation Cardiologie"
@@ -240,13 +242,15 @@
                         android:layout_height="30dp"
                         android:src="@drawable/ic_lock"
                         app:tint="@android:color/white"/>
+
                     <TextView
+                        android:id="@+id/cardBookApptText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="Prendre RDV"
                         android:textColor="@android:color/white"
-                        android:textStyle="bold"
-                        android:layout_marginTop="4dp"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
