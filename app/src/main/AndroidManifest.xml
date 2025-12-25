@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MHealth"
         tools:targetApi="31">
-
+        <activity
+            android:name=".BookAppointmentActivity"
+            android:exported="false" />
         <!--
          CORRECTION : SplashActivity est maintenant le point de lancement.
          C'est le premier écran que l'utilisateur verra.
@@ -23,23 +25,26 @@
             android:theme="@style/Theme.MHealth"> <!-- Thème optionnel pour plein écran -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!--
          LoginActivity n'est plus le point de lancement.
          Elle sera appelée par SplashActivity.
         -->
         <activity
             android:name=".LoginActivity"
+            android:exported="false" /> <!-- Déclaration des autres activités -->
+        <activity
+            android:name=".SignUpActivity"
             android:exported="false" />
-
-        <!-- Déclaration des autres activités -->
-        <activity android:name=".SignUpActivity" android:exported="false" />
-        <activity android:name=".WaitingForConfirmationActivity" android:exported="false" />
-        <activity android:name=".PatientDashboardActivity" android:exported="false" />
-
+        <activity
+            android:name=".WaitingForConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PatientDashboardActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

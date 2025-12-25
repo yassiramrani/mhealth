@@ -36,6 +36,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ROLE = "role";
     public static final String COLUMN_STATUS = "status";
 
+    // Table rendez-vous
+    public static final String TABLE_APPOINTMENTS = "rendez_vous";
+    public static final String COLUMN_APPT_ID = "id";
+    public static final String COLUMN_PATIENT_EMAIL = "patient_email";
+    public static final String COLUMN_SPECIALTY = "specialite";
+    public static final String COLUMN_DOCTOR = "medecin";
+    public static final String COLUMN_DATE = "date_rdv";
+    public static final String COLUMN_REASON = "motif";
+    public static final String COLUMN_APPT_STATUS = "statut";
     // =======================
     // CREATE TABLE QUERY
     // =======================
@@ -53,6 +62,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COLUMN_ROLE + " TEXT, "
                     + COLUMN_STATUS + " TEXT"
                     + ");";
+
+    private static final String TABLE_APPOINTMENTS_CREATE =
+            "CREATE TABLE " + TABLE_APPOINTMENTS + " (" +
+                    COLUMN_APPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_PATIENT_EMAIL + " TEXT, " +
+                    COLUMN_SPECIALTY + " TEXT, " +
+                    COLUMN_DOCTOR + " TEXT, " +
+                    COLUMN_DATE + " TEXT, " +
+                    COLUMN_REASON + " TEXT, " +
+                    COLUMN_APPT_STATUS + " TEXT" +
+                    ");";
 
     // =======================
     // PRIVATE CONSTRUCTOR
@@ -77,11 +97,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
+        db.execSQL(TABLE_APPOINTMENTS_CREATE); // rendez_vous
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_APPOINTMENTS);
         onCreate(db);
     }
 
@@ -107,7 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_GENDER, gender);
         values.put(COLUMN_WEIGHT, weight);
         values.put(COLUMN_HEIGHT, height);
-        values.put(COLUMN_PASSWORD, password); // ⚠ Hash in production
+        values.put(COLUMN_PASSWORD, password); // ⚠ Hash en production
         values.put(COLUMN_ROLE, "patient");
         values.put(COLUMN_STATUS, "en_attente");
 
@@ -142,4 +164,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null
         );
     }
+
+    // =======================
+    // GET USER BY EMAIL (DASHBOARD)
+    // =======================
+    public Cursor getUserByEmail(String email) {
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = {
+                COLUMN_ID,
+                COLUMN_FULL_NAME,
+                COLUMN_EMAIL,
+                COLUMN_ROLE,
+                COLUMN_STATUS
+        };
+
+        String selection = COLUMN_EMAIL + " = ?";
+        String[] selectionArgs = { email };
+
+        return db.query(
+                TABLE_USERS,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
+    // Ajouter un rendez-vous
+    public boolean addAppointment(
+            String patientEmail,
+            String specialite,
+            String medecin,
+            String dateRdv,
+            String motif
+    ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_PATIENT_EMAIL, patientEmail);
+        values.put(COLUMN_SPECIALTY, specialite);
+        values.put(COLUMN_DOCTOR, medecin);
+        values.put(COLUMN_DATE, dateRdv);
+        values.put(COLUMN_REASON, motif);
+        values.put(COLUMN_APPT_STATUS, "en_attente");
+
+        long result = db.insert(TABLE_APPOINTMENTS, null, values);
+        return result != -1;
+    }
+
 }
