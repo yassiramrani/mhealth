@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mhealth">
+
+        <!-- Vos activités existantes -->
         <activity
             android:name=".WaitingForConfirmationActivity"
             android:exported="false" />
@@ -19,7 +21,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,8 +30,14 @@
             android:name="com.example.mhealth.AdminDashboardActivity"
             android:exported="true" />
         <activity
-            android:name=".UsersActivity"
-            android:exported="false" />
+            android:name=".UserActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

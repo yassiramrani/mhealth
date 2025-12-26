@@ -24,7 +24,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         cardUsers.setOnClickListener(v -> {
             Intent intent = new Intent(
                     AdminDashboardActivity.this,
-                    UsersActivity.class
+                    UserActivity.class
             );
             startActivity(intent);
         });

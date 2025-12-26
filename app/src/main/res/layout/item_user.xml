@@ -10,87 +10,148 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
+        android:orientation="vertical"
         android:background="#FFFFFF">
 
+        <!-- Section principale avec info utilisateur -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginEnd="12dp">
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <!-- Label Nom -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nom"
-                android:textSize="10sp"
-                android:textColor="#757575"
-                android:layout_marginBottom="4dp"/>
+            <!-- Icône utilisateur -->
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/circle_background"
+                android:layout_marginEnd="12dp">
 
-            <!-- Valeur Nom - SANS TEXTE EN DUR -->
-            <TextView
-                android:id="@+id/txtName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="#212121"/>
+                <TextView
+                    android:id="@+id/txtInitial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:textSize="24sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
-            <!-- Label Email -->
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Informations utilisateur -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Email"
-                android:textSize="10sp"
-                android:textColor="#757575"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <!-- Valeur Email - SANS TEXTE EN DUR -->
-            <TextView
-                android:id="@+id/txtEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#424242"/>
+                <!-- Nom -->
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="4dp"/>
 
-            <!-- Label Statut -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Statut"
-                android:textSize="10sp"
-                android:textColor="#757575"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"/>
+                <!-- Email -->
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:layout_marginBottom="8dp"/>
 
-            <!-- Valeur Statut - SANS TEXTE EN DUR -->
-            <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#4CAF50"
-                android:textStyle="bold"/>
+                <!-- Rôle et Statut -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Badge Rôle -->
+                    <TextView
+                        android:id="@+id/txtRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textSize="12sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/badge_background"
+                        android:layout_marginEnd="8dp"/>
+
+                    <!-- Badge Statut -->
+                    <TextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textSize="12sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/status_background"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Bouton Valider -->
-        <Button
-            android:id="@+id/btnAction"
-            android:layout_width="wrap_content"
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- Boutons d'action -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="Valider"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"/>
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="end">
+
+            <!-- Bouton Refuser -->
+            <Button
+                android:id="@+id/btnReject"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Refuser"
+                android:textSize="14sp"
+                android:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+            <!-- Bouton Approuver -->
+            <Button
+                android:id="@+id/btnApprove"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Approuver"
+                android:textSize="14sp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                style="@style/Widget.MaterialComponents.Button"/>
+
+            <!-- Bouton Voir Détails -->
+            <Button
+                android:id="@+id/btnDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Détails"
+                android:textSize="14sp"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp"
+                style="@style/Widget.MaterialComponents.Button"/>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
