@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private TextView tvAdminWelcome;
-    private Button btnManageUsers, btnAddUser;
+    private android.view.View btnManageUsers, btnAddUser;
     private DatabaseHelper db;
 
     @Override
