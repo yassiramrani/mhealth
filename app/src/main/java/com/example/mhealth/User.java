@@ -2,58 +2,70 @@ package com.example.mhealth;
 
 public class User {
     private int id;
-    private String name;
+    private String fullName;
     private String email;
     private String status;
-    private String role; // Add this field
+    private String role;
 
-    // Updated constructor
-    public User(int id, String name, String email, String status, String role) {
+    // Constructeur
+    public User(int id, String fullName, String email, String status, String role) {
         this.id = id;
-        this.name = name;
+        this.fullName = fullName;
         this.email = email;
         this.status = status;
         this.role = role;
     }
 
-    // Getters and setters
+    // Getters
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getRole() {
         return role;
     }
 
+    // Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

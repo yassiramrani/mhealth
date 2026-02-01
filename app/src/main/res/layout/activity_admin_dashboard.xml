@@ -1,292 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="#F0F4F8"
+    tools:context=".AdminDashboardActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="12dp">
 
-        <!-- Header -->
-        <LinearLayout
+        <!-- Titre -->
+        <TextView
+            android:id="@+id/tvAdminWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tableau de bord Administrateur"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1F2937"
+            android:padding="16dp" />
+
+        <!-- Carte Gérer les utilisateurs -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardManageUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Admin Dashboard"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="#1A1A1A"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gérez votre plateforme en un clin d'œil"
-                android:textSize="14sp"
-                android:textColor="#6C757D"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
-
-        <!-- Utilisateurs Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardUsers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#667EEA"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
+            android:layout_margin="8dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:text="👥"
-                    android:textSize="32sp"
-                    android:gravity="center"
-                    android:background="#40FFFFFF"
-                    android:textAlignment="center" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Utilisateurs"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gérer les comptes"
-                        android:textSize="14sp"
-                        android:textColor="#FFFFFF"
-                        android:alpha="0.9"
-                        android:layout_marginTop="4dp" />
+                android:padding="16dp"
+                android:gravity="center_vertical">
+                <ImageView android:src="@android:drawable/ic_menu_manage" android:layout_width="40dp" android:layout_height="40dp" app:tint="?attr/colorPrimary"/>
+                <LinearLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Utilisateurs" android:textStyle="bold" android:textSize="16sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gérer les comptes utilisateurs"/>
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="→"
-                    android:textSize="24sp"
-                    android:textColor="#FFFFFF"
-                    android:layout_gravity="center_vertical" />
+                <ImageView android:src="@android:drawable/ic_media_play" android:layout_width="24dp" android:layout_height="24dp" app:tint="?attr/colorPrimary"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Cours Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCourses"
+        <!-- Carte Ajouter un utilisateur -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAddUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#F5576C"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
+            android:layout_margin="8dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:text="📚"
-                    android:textSize="32sp"
-                    android:gravity="center"
-                    android:background="#40FFFFFF"
-                    android:textAlignment="center" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rendez vous"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Contenu et modules"
-                        android:textSize="14sp"
-                        android:textColor="#FFFFFF"
-                        android:alpha="0.9"
-                        android:layout_marginTop="4dp" />
+                android:padding="16dp"
+                android:gravity="center_vertical">
+                <ImageView android:src="@android:drawable/ic_input_add" android:layout_width="40dp" android:layout_height="40dp" app:tint="#2196F3"/>
+                <LinearLayout android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ajouter un utilisateur" android:textStyle="bold" android:textSize="16sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Créer des comptes médecins ou secrétaires"/>
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="→"
-                    android:textSize="24sp"
-                    android:textColor="#FFFFFF"
-                    android:layout_gravity="center_vertical" />
+                <ImageView android:src="@android:drawable/ic_media_play" android:layout_width="24dp" android:layout_height="24dp" app:tint="#2196F3"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Paiements Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardPayments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#4FACFE"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:text="💳"
-                    android:textSize="32sp"
-                    android:gravity="center"
-                    android:background="#40FFFFFF"
-                    android:textAlignment="center" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Paiements"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Transactions et revenus"
-                        android:textSize="14sp"
-                        android:textColor="#FFFFFF"
-                        android:alpha="0.9"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="→"
-                    android:textSize="24sp"
-                    android:textColor="#FFFFFF"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Paramètres Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#43E97B"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:text="⚙️"
-                    android:textSize="32sp"
-                    android:gravity="center"
-                    android:background="#40FFFFFF"
-                    android:textAlignment="center" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Paramètres"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Configuration système"
-                        android:textSize="14sp"
-                        android:textColor="#FFFFFF"
-                        android:alpha="0.9"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="→"
-                    android:textSize="24sp"
-                    android:textColor="#FFFFFF"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>

@@ -2,43 +2,42 @@ package com.example.mhealth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import android.widget.Toast;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    CardView cardUsers, cardCourses, cardPayments, cardSettings;
+    private TextView tvAdminWelcome;
+    private Button btnManageUsers, btnAddUser;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
 
-        cardUsers = findViewById(R.id.cardUsers);
-        cardCourses = findViewById(R.id.cardCourses);
-        cardPayments = findViewById(R.id.cardPayments);
-        cardSettings = findViewById(R.id.cardSettings);
+        db = DatabaseHelper.getInstance(this);
 
-        // 🔹 Ouvrir la liste des utilisateurs
-        cardUsers.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    AdminDashboardActivity.this,
-                    UserActivity.class
-            );
+        // Initialisation des vues
+        tvAdminWelcome = findViewById(R.id.tvAdminWelcome);
+        btnManageUsers = findViewById(R.id.cardManageUsers);
+        btnAddUser = findViewById(R.id.cardAddUser);
+
+        // Listeners
+        btnManageUsers.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, UserActivity.class);
             startActivity(intent);
         });
 
-        cardCourses.setOnClickListener(v ->
-                Toast.makeText(this, "Gestion des cours", Toast.LENGTH_SHORT).show()
-        );
+        btnAddUser.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, AddUserActivity.class);
+            startActivity(intent);
+        });
+    }
 
-        cardPayments.setOnClickListener(v ->
-                Toast.makeText(this, "Paiements", Toast.LENGTH_SHORT).show()
-        );
-
-        cardSettings.setOnClickListener(v ->
-                Toast.makeText(this, "Paramètres", Toast.LENGTH_SHORT).show()
-        );
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

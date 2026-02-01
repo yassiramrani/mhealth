@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Créer une ordonnance"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
+
+        <EditText
+            android:id="@+id/edtPatient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom du patient"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/edtMedecin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom du médecin"
+            android:inputType="textPersonName"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/edtMedicaments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Médicaments (ex: Paracétamol 3x/j)"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/edtDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date"
+            android:inputType="date"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enregistrer l'ordonnance"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#3F51B5</color>
+
+    <!-- Notification Colors -->
+    <color name="success_bg">#E8F5E9</color>
+    <color name="success_text">#2E7D32</color>
+    <color name="error_bg">#FFEBEE</color>
+    <color name="error_text">#C62828</color>
 </resources>

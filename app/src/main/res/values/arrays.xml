@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="roles_array">
+        <item>Medecin</item>
+        <item>Secretaire</item>
+    </string-array>
+</resources>

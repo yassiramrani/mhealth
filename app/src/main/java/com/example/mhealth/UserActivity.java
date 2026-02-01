@@ -1,11 +1,14 @@
 package com.example.mhealth;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class UserActivity extends AppCompatActivity {
@@ -15,6 +18,7 @@ public class UserActivity extends AppCompatActivity {
     private List<User> userList;
     private DatabaseHelper dbHelper;
     private ImageButton btnBack;
+    private Button btnFilterAll, btnFilterPatients, btnFilterMedecins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,9 @@ public class UserActivity extends AppCompatActivity {
         // Initialiser les vues
         recyclerView = findViewById(R.id.recyclerUsers);
         btnBack = findViewById(R.id.btnBack);
+        btnFilterAll = findViewById(R.id.btnFilterAll);
+        btnFilterPatients = findViewById(R.id.btnFilterPatients);
+        btnFilterMedecins = findViewById(R.id.btnFilterMedecins);
 
         // Configurer RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -32,89 +39,50 @@ public class UserActivity extends AppCompatActivity {
         // Initialiser DatabaseHelper
         dbHelper = DatabaseHelper.getInstance(this);
 
-        // Charger les utilisateurs depuis la base de données
-        loadUsersFromDatabase();
+        // Créer l'admin UNE SEULE FOIS s'il n'existe pas
+        dbHelper.createAdminIfNotExists();
 
-        // Configurer le bouton retour
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> finish());
-        }
+        // Charger les utilisateurs
+        loadUsersFromDatabase(null); // Load all users initially
+
+        // Bouton retour
+        btnBack.setOnClickListener(v -> finish());
+
+        // Boutons de filtre
+        btnFilterAll.setOnClickListener(v -> loadUsersFromDatabase(null));
+        btnFilterPatients.setOnClickListener(v -> loadUsersFromDatabase("patient"));
+        btnFilterMedecins.setOnClickListener(v -> loadUsersFromDatabase("medecin"));
     }
 
-    private void loadUsersFromDatabase() {
-        // Récupérer TOUS les utilisateurs depuis la base
-        userList = dbHelper.getAllUsers();
-
-        // Vérifier si des utilisateurs existent
-        if (userList == null || userList.isEmpty()) {
-            Toast.makeText(this, "Aucun utilisateur dans la base de données", Toast.LENGTH_LONG).show();
-
-            // Option 1: Ajouter des utilisateurs de test dans la base
-            addTestUsersToDatabase();
-
-            // Recharger après ajout
+    private void loadUsersFromDatabase(String role) {
+        if (role == null) {
             userList = dbHelper.getAllUsers();
+        } else {
+            userList = dbHelper.getUsersByRole(role);
         }
 
-        // Afficher le nombre d'utilisateurs
-        Toast.makeText(this, userList.size() + " utilisateur(s) trouvé(s)", Toast.LENGTH_SHORT).show();
+        if (userList == null || userList.isEmpty()) {
+            Toast.makeText(this, "Aucun utilisateur trouvé", Toast.LENGTH_SHORT).show();
+        }
 
-        // Créer et configurer l'adaptateur
         adapter = new UserAdapter(this, userList, dbHelper);
         recyclerView.setAdapter(adapter);
-    }
 
-    private void addTestUsersToDatabase() {
-        // Ajouter quelques utilisateurs de test directement dans la base
-        dbHelper.addPatient(
-                "Jean Dupont",
-                "jean.dupont@email.com",
-                "0612345678",
-                "1990-05-15",
-                "Homme",
-                75.5,
-                180.0,
-                "password123"
-        );
-
-        dbHelper.addPatient(
-                "Marie Martin",
-                "marie.martin@email.com",
-                "0698765432",
-                "1985-08-22",
-                "Femme",
-                65.0,
-                165.0,
-                "password456"
-        );
-
-        dbHelper.addPatient(
-                "Pierre Durand",
-                "pierre.durand@email.com",
-                "0601020304",
-                "1995-03-10",
-                "Homme",
-                80.0,
-                175.0,
-                "password789"
-        );
-
-        Toast.makeText(this, "3 utilisateurs de test ajoutés à la base", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, userList.size() + " utilisateur(s)", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Rafraîchir la liste quand l'activité revient au premier plan
         refreshUserList();
     }
 
     private void refreshUserList() {
         if (dbHelper != null && adapter != null) {
-            List<User> updatedList = dbHelper.getAllUsers();
-            userList.clear();
-            userList.addAll(updatedList);
-            adapter.notifyDataSetChanged();
+            // Re-apply the current filter
+            // For simplicity, we just reload all users. A more advanced implementation
+            // could store the last-used filter and re-apply it.
+            loadUsersFromDatabase(null);
         }
     }
 }

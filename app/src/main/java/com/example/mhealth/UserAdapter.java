@@ -18,12 +18,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private final Context context;
     private final DatabaseHelper dbHelper;
 
-    // Updated constructor with 3 parameters
     public UserAdapter(Context context, List<User> userList, DatabaseHelper dbHelper) {
         this.context = context;
         this.userList = userList;
         this.dbHelper = dbHelper;
-
     }
 
     @NonNull
@@ -37,100 +35,71 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
 
-        // Afficher l'initiale du nom
-        String initial = user.getName() != null && !user.getName().isEmpty()
-                ? user.getName().substring(0, 1).toUpperCase()
+        String initial = user.getFullName() != null && !user.getFullName().isEmpty()
+                ? user.getFullName().substring(0, 1).toUpperCase()
                 : "?";
         holder.txtInitial.setText(initial);
 
-        // Afficher les informations
-        holder.txtName.setText(user.getName());
+        holder.txtName.setText(user.getFullName());
         holder.txtEmail.setText(user.getEmail());
-        // Updated: Using hardcoded "Patient" since User class doesn't have getRole() method
-        holder.txtRole.setText("Patient");
+        holder.txtRole.setText(user.getRole());
         holder.txtStatus.setText(user.getStatus());
 
-        // Changer la couleur du statut selon l'état
         switch (user.getStatus().toLowerCase()) {
             case "en_attente":
-            case "pending":
                 holder.txtStatus.setBackgroundColor(Color.parseColor("#FF9800")); // Orange
-                holder.txtStatus.setText("En attente");
+                holder.btnApprove.setVisibility(View.VISIBLE);
+                holder.btnReject.setVisibility(View.VISIBLE);
                 break;
-            case "approuve":
-            case "approved":
+            case "actif":
                 holder.txtStatus.setBackgroundColor(Color.parseColor("#4CAF50")); // Vert
-                holder.txtStatus.setText("Approuvé");
+                holder.btnApprove.setVisibility(View.GONE);
+                holder.btnReject.setVisibility(View.VISIBLE); // Peut-être pour désactiver
                 break;
             case "refuse":
-            case "rejected":
                 holder.txtStatus.setBackgroundColor(Color.parseColor("#F44336")); // Rouge
-                holder.txtStatus.setText("Refusé");
+                holder.btnApprove.setVisibility(View.GONE);
+                holder.btnReject.setVisibility(View.GONE);
                 break;
             default:
                 holder.txtStatus.setBackgroundColor(Color.parseColor("#757575")); // Gris
                 break;
         }
 
-        // Masquer les boutons si déjà traité
-        if (user.getStatus().equalsIgnoreCase("approuve") ||
-                user.getStatus().equalsIgnoreCase("approved")) {
-            holder.btnApprove.setVisibility(View.GONE);
-            holder.btnReject.setVisibility(View.GONE);
-        } else if (user.getStatus().equalsIgnoreCase("refuse") ||
-                user.getStatus().equalsIgnoreCase("rejected")) {
-            holder.btnApprove.setVisibility(View.VISIBLE);
-            holder.btnReject.setVisibility(View.GONE);
-        } else {
-            holder.btnApprove.setVisibility(View.VISIBLE);
-            holder.btnReject.setVisibility(View.VISIBLE);
-        }
-
-        // Bouton Approuver
         holder.btnApprove.setOnClickListener(v -> {
-            boolean success = dbHelper.updateUserStatus(user.getId(), "approuve");
+            boolean success = dbHelper.updateUserStatus(user.getId(), "actif"); // CHANGÉ ICI
             if (success) {
-                user.setStatus("approuve");
+                user.setStatus("actif");
                 notifyItemChanged(position);
-                Toast.makeText(context, user.getName() + " approuvé ✓", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, user.getFullName() + " est maintenant actif.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "Erreur lors de l'approbation", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Erreur lors de l\'approbation", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Bouton Refuser
         holder.btnReject.setOnClickListener(v -> {
             boolean success = dbHelper.updateUserStatus(user.getId(), "refuse");
             if (success) {
                 user.setStatus("refuse");
                 notifyItemChanged(position);
-                Toast.makeText(context, user.getName() + " refusé", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, user.getFullName() + " a été refusé.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "Erreur lors du refus", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Bouton Détails
         holder.btnDetails.setOnClickListener(v -> {
-            // Afficher les détails de l'utilisateur
-            showUserDetails(user);
+            String details = "Nom: " + user.getFullName() + "\n" +
+                    "Email: " + user.getEmail() + "\n" +
+                    "Rôle: " + user.getRole() + "\n" +
+                    "Statut: " + user.getStatus();
+            Toast.makeText(context, details, Toast.LENGTH_LONG).show();
         });
     }
 
     @Override
     public int getItemCount() {
         return userList.size();
-    }
-
-    private void showUserDetails(User user) {
-        String details = "Nom: " + user.getName() + "\n" +
-                "Email: " + user.getEmail() + "\n" +
-                "Rôle: Patient\n" + // Hardcoded since User doesn't have getRole()
-                "Statut: " + user.getStatus();
-
-        Toast.makeText(context, details, Toast.LENGTH_LONG).show();
-
-        // TODO: Créer une activité ou dialog pour afficher plus de détails
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {

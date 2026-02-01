@@ -27,7 +27,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Initialisation des vues
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
@@ -40,18 +39,15 @@ public class SignUpActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginRedirect = findViewById(R.id.tvLoginRedirect);
 
-        // Initialiser DatabaseHelper avec getInstance
         dbHelper = DatabaseHelper.getInstance(this);
 
-        // Gestion du DatePicker pour la date de naissance
         etDob.setOnClickListener(v -> showDatePicker());
 
-        // Bouton d'inscription
         btnRegister.setOnClickListener(v -> registerPatient());
 
-        // Redirection vers la page de connexion
+        // CORRECTION : Rediriger vers LoginActivity
         tvLoginRedirect.setOnClickListener(v -> {
-            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
             finish();
         });
     }
@@ -74,7 +70,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void registerPatient() {
-        // Récupérer les valeurs
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
@@ -82,7 +77,6 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        // Récupérer le genre sélectionné
         int selectedGenderId = rgGender.getCheckedRadioButtonId();
         String gender = "";
         if (selectedGenderId != -1) {
@@ -90,11 +84,9 @@ public class SignUpActivity extends AppCompatActivity {
             gender = selectedRadioButton.getText().toString();
         }
 
-        // Récupérer poids et taille
         String weightStr = etWeight.getText().toString().trim();
         String heightStr = etHeight.getText().toString().trim();
 
-        // Validations
         if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(email) ||
                 TextUtils.isEmpty(phone) || TextUtils.isEmpty(dob) ||
                 TextUtils.isEmpty(gender) || TextUtils.isEmpty(weightStr) ||
@@ -107,13 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        if (password.length() < 6) {
-            Toast.makeText(this, "Le mot de passe doit contenir au moins 6 caractères", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Convertir poids et taille en double
+        
         double weight, height;
         try {
             weight = Double.parseDouble(weightStr);
@@ -123,18 +109,6 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        // Vérifier que poids et taille sont raisonnables
-        if (weight <= 0 || weight > 300) {
-            Toast.makeText(this, "Veuillez entrer un poids valide (1-300 kg)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (height <= 0 || height > 250) {
-            Toast.makeText(this, "Veuillez entrer une taille valide (1-250 cm)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Ajouter le patient à la base de données
         boolean isInserted = dbHelper.addPatient(fullName, email, phone, dob, gender, weight, height, password);
 
         if (isInserted) {
@@ -147,10 +121,9 @@ public class SignUpActivity extends AppCompatActivity {
     private void showSuccessDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Inscription Réussie")
-                .setMessage("Votre compte a été créé avec succès et est en attente de validation par un administrateur. Vous serez notifié une fois votre compte approuvé.")
+                .setMessage("Votre compte a été créé avec succès et est en attente de validation par un administrateur.")
                 .setPositiveButton("OK", (dialog, which) -> {
-                    // Rediriger vers la page de connexion
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                     finish();
                 })
                 .setCancelable(false)

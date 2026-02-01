@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">mhealth</string>
     <string name="retour">Retour</string>
+    <string name="title_activity_confirm_rdv">ConfirmRdvActivity</string>
 </resources>

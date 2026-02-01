@@ -35,6 +35,36 @@
             android:textStyle="bold"/>
     </RelativeLayout>
 
+    <!-- Filtres -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnFilterAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tous" />
+
+        <Button
+            android:id="@+id/btnFilterPatients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Patients" />
+
+        <Button
+            android:id="@+id/btnFilterMedecins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Médecins" />
+    </LinearLayout>
+
     <!-- RecyclerView pour afficher TOUS les utilisateurs -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerUsers"
